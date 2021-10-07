@@ -11,7 +11,6 @@ class Sequencer:
     def __init__(self):
         self.sequences = {}
 
-    # NOTE: galima butu iskelti file atidaryma i main ir cia priimti seq kaip argumenta. Bet jei sito metodo niekur daugiau nereikes kviesti, tai don't bother..
     def find_start_stop_fragments(self, path: str) -> Tuple[Seq, List[List[int]]]:
         start_codons = config.START_CODONS
         stop_codons = config.STOP_CODONS
@@ -32,7 +31,7 @@ class Sequencer:
                                 strand_start_ids.append(codon_start_id)
                             if str(strand[codon_start_id:codon_end_id]) in stop_codons:
                                 for strand_start_id in strand_start_ids:
-                                    self.sequences[nucleotide_sequence].append([strand_start_id, codon_end_id]) # TODO: can prob use tuples here instead, tik tada pakeisti ir return value indikatoriu
+                                    self.sequences[nucleotide_sequence].append([strand_start_id, codon_end_id])
                                 strand_start_ids.clear()
         return nucleotide_sequence, self.sequences[nucleotide_sequence]
     
@@ -51,7 +50,6 @@ class Sequencer:
             if length > unique_stops[codon_end_id]:
                 unique_stops[codon_end_id] = length
 
-        # return { stop-length: stop for stop, length in unique_stops.items() }
         self.sequences[seq] = [[stop-length, stop] for stop, length in unique_stops.items()]
         return self.sequences[seq]
 
@@ -76,7 +74,6 @@ class Sequencer:
 
     @staticmethod
     def get_frame_dicodons_iter(seq: Seq, frame=0) -> Iterator[int]:
-        # TODO: if this actually works, add explanation why length is 3 here and why length*2 (3 kodonai - 2 dikodonai)
         seq_length = len(seq)
         length = 3
         for index in range(frame, seq_length, length):
@@ -84,15 +81,4 @@ class Sequencer:
                 break
 
             chunk = index, index+(length+length)
-            yield chunk
-
-    # TODO: delete
-    @staticmethod
-    def __chunk_sequece_iter(seq: Seq, start: int, length: int) -> Iterator[int]:
-        seq_length = len(seq)
-        for index in range(start, seq_length, length):
-            if index + length > seq_length:
-                break
-
-            chunk = index, index+length
             yield chunk
