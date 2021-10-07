@@ -2,7 +2,6 @@ from config import config
 from core import CodonFrequencyCalculator, PhylipDistanceMatrix, Sequencer
 from utils import IO
 
-# TODO: write doc strings for all classes/functions ?
 if __name__ == '__main__':
     frequencyCalculator = CodonFrequencyCalculator()
 
@@ -19,11 +18,11 @@ if __name__ == '__main__':
         # 3
         filtered_fragments_indices = sequencer.filter_out_fragments_shorter_than(seq, config.MIN_FRAGMENT_LENGTH)
         # 4 
-        # TODO: parasyti docstringe 4 funkcijos + aprasyme, kad daznumas skaiciuojamas kodonais, o ne dazniais, kur kodinai transliuoti iki amino rugsciu
         codon_frequency_tables[seq] = frequencyCalculator.get_codon_frequencies(seq, filtered_fragments_indices)
         dicodon_frequency_tables[seq] = frequencyCalculator.get_dicodon_frequencies(seq, filtered_fragments_indices)
         print()
 
+    # 5
     IO.info('Calculating Phylip distance matrix for codon frequencies...')
     codon_distance_matrix = PhylipDistanceMatrix(codon_frequency_tables)
     codon_distance_matrix.calculate()
@@ -31,6 +30,7 @@ if __name__ == '__main__':
 
     print()
 
+    # 5
     IO.info('Calculating Phylip distance matrix for dicodon frequencies...')
     dicodon_distance_matrix = PhylipDistanceMatrix(dicodon_frequency_tables)
     dicodon_distance_matrix.calculate()
