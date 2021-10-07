@@ -1,3 +1,5 @@
 .env/
 .vscode/
 **/__pycache__
+task.md
+test.ipynb
